@@ -33,7 +33,7 @@ const CreateListCountries = ({ selectedCountries, onCountrySelect }) => {
             } else {
                 updatedSet.add(country);
             }
-            return updatedSet; 
+            return updatedSet;
         });
     };
 
@@ -58,12 +58,12 @@ const CreateListCountries = ({ selectedCountries, onCountrySelect }) => {
                 placeholder="Search for a country..."
                 value={searchTerm}
                 onChange={handleSearch}
-                className="mb-3"
+                className="mb-2"
             />
             {loading ? (
                 <Spinner animation="border" role="status" />
             ) : (
-                <ListGroup style={{ maxHeight: '720px', overflowY: 'auto'}}>
+                <ListGroup className="overflow-y-auto mb-3">
                     {Object.keys(groupedCountries).map((letter) => (
                         <React.Fragment key={letter}>
                             <ListGroup.Item className="font-weight-bold">{letter}</ListGroup.Item>
@@ -84,6 +84,7 @@ const CreateListCountries = ({ selectedCountries, onCountrySelect }) => {
                     ))}
                 </ListGroup>
             )}
+
         </>
     );
 };

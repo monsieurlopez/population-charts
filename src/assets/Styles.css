@@ -1,0 +1,15 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* Evita cualquier tipo de scroll en la página */
+  }
+  
+  #main {
+    position: absolute;
+    top: 60px; /* Altura del header */
+    width: 100%;
+    height: calc(100vh - 60px); /* Calcula el tamaño exacto para que no exceda */
+    background-color: #f8f9fa; /* Fondo para diferenciarlo */
+    overflow: hidden; /* No permite scroll dentro del <main> */
+  }

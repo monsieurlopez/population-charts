@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart }) => {
   const [countryColors, setCountryColors] = useState({}); // Guardar colores seleccionados localmente
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true); 
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [buttonText, setButtonText] = useState("Generate chart");
   const [firstGeneration, setFirstGeneration] = useState(false);
 
@@ -14,7 +14,7 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
       const updatedColors = { ...prevColors };
       Array.from(selectedCountries).forEach(country => {
         if (!updatedColors[country]) {
-          updatedColors[country] = "#e66465"; 
+          updatedColors[country] = "#e66465";
         }
       });
       return updatedColors;
@@ -32,9 +32,9 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
       } else {
         setButtonText("Update chart");
         setIsButtonDisabled(false);
-      } 
+      }
     }
-    
+
   }, [selectedCountries, firstGeneration]);
 
   // Función para manejar cambios de color solo a nivel local
@@ -68,18 +68,18 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
                   value={countryColors[country] || "#e66465"} 
                   onChange={(e) => handleColorChange(country, e.target.value)} 
                   style={{ width: '20px', height: '20px', marginRight: '5px' }}
-                />    
+                />
                 <CloseButton onClick={() => onRemoveCountry(country)}></CloseButton>
-              </div>   
+              </div>
             </ListGroup.Item>
           ))}
         </ListGroup>
       )}
 
       <Button
-        id='create_chart' 
-        variant='primary mt-1' 
-        size='sm' 
+        id='create_chart'
+        variant='primary mt-1'
+        size='sm'
         onClick={handleGenerateChart}
         disabled={isButtonDisabled}
       > 

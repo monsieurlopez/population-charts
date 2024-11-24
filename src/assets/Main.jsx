@@ -10,6 +10,8 @@ function CreateMain() {
     const [generateChart, setGenerateChart] = useState(false);
     const [changeListOfCountries, setChangeListOfCountries] = useState(false);
 
+    const maxHeight = window.innerHeight - 60;
+
     const handleCountrySelect = (updatedSet) => {
         setSelectedCountries(updatedSet);
         setChangeListOfCountries(true);
@@ -33,18 +35,18 @@ function CreateMain() {
     };
 
     return (
-        <main id='main' className='row text-center' style={{paddingTop: '70px', paddingBottom: '50px'}}>
-            <div id="research" className="col-2 mt-2">
-                <CreateListCountries 
-                    selectedCountries={selectedCountries} 
-                    onCountrySelect={handleCountrySelect} 
+        <main id='main' className='position-absulute row text-center' style={{ height: maxHeight }}>
+            <div id="research" className="d-flex flex-column col-2 h-100">
+                <CreateListCountries
+                    selectedCountries={selectedCountries}
+                    onCountrySelect={handleCountrySelect}
                 />
             </div>
             <div className="col-8">
                 {countryToChart ? (
                     <PopulationChart
-                        selectedCountries={countryToChart} 
-                        countryColors={countryColors} 
+                        selectedCountries={countryToChart}
+                        countryColors={countryColors}
                         generateChart={generateChart}
                         onChartCreated={() => setGenerateChart(false)}
                     />
