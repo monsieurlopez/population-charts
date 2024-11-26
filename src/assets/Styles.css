@@ -19,3 +19,18 @@ body, html {
   justify-content: center;
   align-items: center;
 }
+
+button.position-fixed {
+  z-index: 1050; /* Asegura que los botones estén por encima del contenido */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+}
+
+@media (min-width: 1400px) {
+  button.position-fixed {
+      display: none; /* Oculta los botones en pantallas grandes */
+  }
+}
+

@@ -129,27 +129,29 @@ const PopulationChart = ({ selectedCountries, countryColors, generateChart, onCh
 
   return (
     <>
-      {loading ? (
-        <Spinner animation="border" role="status" />
-      ) : (
-        Object.keys(populationData).length > 0 && (
-          <div>
+      <div className='d-flex flex-column justify-content-center'>
+        {loading ? (
+          <div className='container position-absolute top-50 start-50 translate-middle' style={{ height: 'auto' }}>
+            <Spinner animation="border" role="status" />
+          </div>
+        ) : (
+          Object.keys(populationData).length > 0 && (
             <div className='container mt-4' style={{ height: 'auto' }}>
               <canvas id='population_chart' width="auto" height="auto"></canvas>
             </div>
-          </div>
-        )
-      )}
-      {loading ? "" : <ConfigurationChart chartRef={chartRef} onAnimationConfigChange={setAnimationConfig}/>}
-      {alerts.map((alert) => (
-        <CreateAlert
-          key={alert.id}
-          variant="danger"
-          message={alert.message}
-          timeout={5000}
-          onClose={() => handleAlertClose(alert.id)}
-        />
-      ))}
+          )
+        )}
+        {loading ? "" : <ConfigurationChart chartRef={chartRef} onAnimationConfigChange={setAnimationConfig}/>}
+        {alerts.map((alert) => (
+          <CreateAlert
+            key={alert.id}
+            variant="danger"
+            message={alert.message}
+            timeout={5000}
+            onClose={() => handleAlertClose(alert.id)}
+          />
+        ))}
+      </div>
     </>
   );
 };
