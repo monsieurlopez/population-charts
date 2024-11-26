@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Spinner } from 'react-bootstrap';
 import Chart from "chart.js/auto";
-import { fetchPopulationData } from './Api'; 
+import { fetchPopulationData } from './Api';
 import PropTypes from 'prop-types';
 import CreateAlert from './Alerts';
 import ConfigurationChart from './ConfigurationChart';
@@ -134,7 +134,7 @@ const PopulationChart = ({ selectedCountries, countryColors, generateChart, onCh
       ) : (
         Object.keys(populationData).length > 0 && (
           <div>
-            <div className='container' style={{ height: '750px' }}>
+            <div className='container mt-4' style={{ height: 'auto' }}>
               <canvas id='population_chart' width="auto" height="auto"></canvas>
             </div>
           </div>
@@ -142,12 +142,12 @@ const PopulationChart = ({ selectedCountries, countryColors, generateChart, onCh
       )}
       {loading ? "" : <ConfigurationChart chartRef={chartRef} onAnimationConfigChange={setAnimationConfig}/>}
       {alerts.map((alert) => (
-        <CreateAlert 
-          key={alert.id} 
-          variant="danger" 
-          message={alert.message} 
-          timeout={5000} 
-          onClose={() => handleAlertClose(alert.id)} 
+        <CreateAlert
+          key={alert.id}
+          variant="danger"
+          message={alert.message}
+          timeout={5000}
+          onClose={() => handleAlertClose(alert.id)}
         />
       ))}
     </>
