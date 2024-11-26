@@ -21,7 +21,7 @@ body, html {
 }
 
 button.position-fixed {
-  z-index: 1050; /* Asegura que los botones estén por encima del contenido */
+  z-index: 1050;
   background: none;
   border: none;
   color: white;
@@ -29,8 +29,14 @@ button.position-fixed {
 }
 
 @media (min-width: 1400px) {
-  button.position-fixed {
-      display: none; /* Oculta los botones en pantallas grandes */
+  .button-offCanvas {
+    display: none;
   }
 }
+
+/*@media (min-width: 768px) {
+  .container-chart {
+    margin-top: 0px;
+  }
+}*/
 

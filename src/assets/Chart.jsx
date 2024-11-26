@@ -136,7 +136,7 @@ const PopulationChart = ({ selectedCountries, countryColors, generateChart, onCh
           </div>
         ) : (
           Object.keys(populationData).length > 0 && (
-            <div className='container mt-4' style={{ height: 'auto' }}>
+            <div className='container-chart mt-4' style={{ height: 'auto' }}>
               <canvas id='population_chart' width="auto" height="auto"></canvas>
             </div>
           )
