@@ -1,15 +1,13 @@
-//import { phone_rotation } from './assets/phone_rotation.jpg';
-const CreateInstructuions = () => {
+
+const CreateInstructions = () => {
     return (
         <>
-            <div>
-                <h3>No chart available</h3>
-                <p>Step1: Search a country from de list</p>
-                <p>Step2: Select the color for the country</p>
-                {/*<img src={phone_rotation} alt="phone_rotation"/>*/}
+            <div className="information-text w-100">
+                    <h3 className="mt-1">No chart available</h3>
+                    <p>Step 1: Search a country from the list <br/> Step 2: Select the color for the country </p>
             </div>
         </>
     );
 };
 
-export default CreateInstructuions;
+export default CreateInstructions;

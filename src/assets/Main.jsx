@@ -4,6 +4,7 @@ import PopulationChart from './Chart';
 import CreateListCountries from './CreateListCountries.jsx';
 import SelectedCountries from './SelectedCountries.jsx';
 import CreateInstructuions from './tools/Instructions.jsx';
+import RotateDevice from './tools/RotateDevice.jsx';
 import PropTypes from 'prop-types';
 
 function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightPanel }) {
@@ -11,20 +12,36 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
     const [countryToChart, setCountryToChart] = useState(null);
     const [countryColors, setCountryColors] = useState({});
     const [generateChart, setGenerateChart] = useState(false);
-    const [changeListOfCountries, setChangeListOfCountries] = useState(false);
     const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
+    const [isLandscape, setIsLandscape] = useState(window.matchMedia('(orientation: landscape)').matches);
 
+    // Detectar cambios de orientación
+    useEffect(() => {
+        const handleOrientationChange = () => {
+            setIsLandscape(window.matchMedia('(orientation: landscape)').matches);
+        };
+
+        // Escuchar cambios de orientación
+        window.addEventListener('orientationchange', handleOrientationChange);
+
+        // Inicializar el estado al cargar
+        handleOrientationChange();
+
+        return () => {
+            window.removeEventListener('orientationchange', handleOrientationChange);
+        };
+    }, []);
+
+    // Detectar cambios en el tamaño de la pantalla
     useEffect(() => {
         const handleResize = () => setIsWideScreen(window.innerWidth >= 1400);
         window.addEventListener('resize', handleResize);
+
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    //const maxHeight = window.innerHeight - 60;
-
     const handleCountrySelect = (updatedSet) => {
         setSelectedCountries(updatedSet);
-        setChangeListOfCountries(true);
     };
 
     const handleRemoveCountry = (country) => {
@@ -33,7 +50,6 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
             updatedSet.delete(country);
             return updatedSet;
         });
-        setChangeListOfCountries(true);
     };
 
     const handleCreateChart = (colors) => {
@@ -48,8 +64,9 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
         <main
             id="main"
             className="container-fluid row text-center"
-            style={{ height: '94vh', top: '60px', width: '100%' }}
+            style={{ height: 'calc(100vh - 60px)', width: '100%' }}
         >
+            {/* Sidebar de selección */}
             {isWideScreen ? (
                 <div id="research" className="d-flex flex-column col-2 h-100">
                     <CreateListCountries
@@ -71,14 +88,19 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                 </Offcanvas>
             )}
 
+            {/* Contenido principal */}
             <div className={`h-100 ${isWideScreen ? 'col-8' : 'w-100'}`} style={{ minHeight: '100vh', overflow: 'hidden' }}>
                 {countryToChart ? (
-                    <PopulationChart
-                        selectedCountries={countryToChart}
-                        countryColors={countryColors}
-                        generateChart={generateChart}
-                        onChartCreated={() => setGenerateChart(false)}
-                    />
+                    isLandscape ? (
+                        <PopulationChart
+                            selectedCountries={countryToChart}
+                            countryColors={countryColors}
+                            generateChart={generateChart}
+                            onChartCreated={() => setGenerateChart(false)}
+                        />
+                    ) : (
+                        <RotateDevice />
+                    )
                 ) : (
                     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                         <CreateInstructuions />
@@ -86,13 +108,13 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                 )}
             </div>
 
+            {/* Sidebar de países seleccionados */}
             {isWideScreen ? (
                 <div id="selection" className="col-2 mt-2 flex-column">
                     <SelectedCountries
                         selectedCountries={selectedCountries}
                         onRemoveCountry={handleRemoveCountry}
                         onGenerateChart={handleCreateChart}
-                        changeListOfCountries={changeListOfCountries}
                     />
                 </div>
             ) : (
@@ -105,7 +127,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                             selectedCountries={selectedCountries}
                             onRemoveCountry={handleRemoveCountry}
                             onGenerateChart={handleCreateChart}
-                            changeListOfCountries={changeListOfCountries}
+                            changeListOfCountries={generateChart}
                         />
                     </Offcanvas.Body>
                 </Offcanvas>
@@ -115,10 +137,10 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
 }
 
 Main.propTypes = {
-    onToggleLeftPanel: PropTypes.func.isRequired, // Función requerida
-    onToggleRightPanel: PropTypes.func.isRequired, // Función requerida
-    showLeftPanel: PropTypes.bool.isRequired, // Booleano requerido
-    showRightPanel: PropTypes.bool.isRequired, // Booleano requerido
+    onToggleLeftPanel: PropTypes.func.isRequired,
+    onToggleRightPanel: PropTypes.func.isRequired,
+    showLeftPanel: PropTypes.bool.isRequired,
+    showRightPanel: PropTypes.bool.isRequired,
 };
 
 export default Main;
