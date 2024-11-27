@@ -64,9 +64,9 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
               {country}
               <div className="d-flex align-items-center">
                 <input 
-                  type="color" 
+                  type="color"
                   value={countryColors[country] || "#e66465"} 
-                  onChange={(e) => handleColorChange(country, e.target.value)} 
+                  onChange={(e) => handleColorChange(country, e.target.value)}
                   style={{ width: '20px', height: '20px', marginRight: '5px' }}
                 />
                 <CloseButton onClick={() => onRemoveCountry(country)}></CloseButton>
@@ -82,7 +82,7 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
         size='sm'
         onClick={handleGenerateChart}
         disabled={isButtonDisabled}
-      > 
+      >
       {buttonText}
       </Button>
     </>
@@ -93,7 +93,6 @@ SelectedCountries.propTypes = {
   selectedCountries: PropTypes.instanceOf(Set).isRequired,
   onRemoveCountry: PropTypes.func.isRequired, 
   onGenerateChart: PropTypes.func.isRequired,
-  changeListOfCountries: PropTypes.bool.isRequired,
 };
 
 export default SelectedCountries;

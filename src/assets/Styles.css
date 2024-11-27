@@ -47,25 +47,24 @@ button.position-fixed {
   }
 }
 
-/*@media (max-width: 993px) {
-  .container-chart {
-    margin-top: 0px !important;
+@keyframes focusAnimation {
+  0% {
+      transform: scale(1);
+      color: #000;
   }
-  .buttons-configuration {
-    margin-top: 0px !important;
+  50% {
+      transform: scale(1.2);
+      color: #007bff;
+  }
+  100% {
+      transform: scale(1);
+      color: #000;
   }
 }
-@media (min-width: 992px) {
-  .container-chart {
-    margin-top: 40px !important;
-  }
-  #main {
-    top: 40px !important;
-  }
-  .buttons-configuration {
-    margin-top: 30px !important;
-  }
-}*/
+
+.focus-animation {
+  animation: focusAnimation 1s infinite ease-in-out;
+}
 
 
 

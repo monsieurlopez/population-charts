@@ -117,16 +117,16 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                         <div
                             style={{
                                 display: isLandscape ? 'block' : 'none',
-                                width: `${chartWidth}px`, // Usar el ancho calculado
-                                height: '100%', // Alto al 100% del contenedor
-                                margin: '0 auto', // Centrar el gráfico
+                                width: `${chartWidth}px`,
+                                height: '100%',
+                                margin: '0 auto',
                             }}
                         >
                             <PopulationChart
                                 selectedCountries={countryToChart}
                                 countryColors={countryColors}
                                 generateChart={generateChart}
-                                onChartCreated={() => setGenerateChart(false)} // Una vez creada, detén la generación
+                                onChartCreated={() => setGenerateChart(false)}
                             />
                         </div>
 

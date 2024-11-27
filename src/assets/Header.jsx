@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faList, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRightPanel }) {
+function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRightPanel, focusSearchIcon }) {
     return (
         <header id="header" className="position-fixed top-0 w-100 bg-secondary-subtle d-flex align-items-center justify-content-between px-3" style={{ height: '60px' }}>
             <Button
@@ -12,7 +12,9 @@ function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRigh
                 onClick={onToggleLeftPanel}
                 style={{ fontSize: '1.5rem' }}
             >
-                <FontAwesomeIcon icon={showLeftPanel ? faTimes : faSearch} />
+                <FontAwesomeIcon icon={showLeftPanel ? faTimes : faSearch}
+                className={focusSearchIcon ? 'focus-animation' : ''} 
+                />
             </Button>
 
             <div className="text-center d-flex align-items-center justify-content-center flex-grow-1">
@@ -28,7 +30,7 @@ function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRigh
                 onClick={onToggleRightPanel}
                 style={{ fontSize: '1.5rem' }}
             >
-                <FontAwesomeIcon icon={showRightPanel ? faTimes : faBars} />
+                <FontAwesomeIcon icon={showRightPanel ? faTimes : faList} />
             </Button>
         </header>
     );
@@ -39,6 +41,7 @@ Header.propTypes = {
     onToggleRightPanel: PropTypes.func.isRequired,
     showLeftPanel: PropTypes.bool.isRequired,
     showRightPanel: PropTypes.bool.isRequired,
+    focusSearchIcon: PropTypes.bool.isRequired,
 };
 
 export default Header;
