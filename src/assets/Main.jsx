@@ -3,6 +3,7 @@ import { Offcanvas } from 'react-bootstrap';
 import PopulationChart from './Chart';
 import CreateListCountries from './CreateListCountries.jsx';
 import SelectedCountries from './SelectedCountries.jsx';
+import CreateInstructuions from './tools/Instructions.jsx';
 import PropTypes from 'prop-types';
 
 function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightPanel }) {
@@ -19,7 +20,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const maxHeight = window.innerHeight - 60;
+    //const maxHeight = window.innerHeight - 60;
 
     const handleCountrySelect = (updatedSet) => {
         setSelectedCountries(updatedSet);
@@ -47,7 +48,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
         <main
             id="main"
             className="container-fluid row text-center"
-            style={{ height: maxHeight, top: '60px', width: '100%' }}
+            style={{ height: '94vh', top: '60px', width: '100%' }}
         >
             {isWideScreen ? (
                 <div id="research" className="d-flex flex-column col-2 h-100">
@@ -79,8 +80,8 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                         onChartCreated={() => setGenerateChart(false)}
                     />
                 ) : (
-                    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '600px' }}>
-                        <h3>No chart available</h3>
+                    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                        <CreateInstructuions />
                     </div>
                 )}
             </div>
