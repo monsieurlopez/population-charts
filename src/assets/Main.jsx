@@ -12,7 +12,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
     const [countryToChart, setCountryToChart] = useState(null);
     const [countryColors, setCountryColors] = useState({});
     const [generateChart, setGenerateChart] = useState(false);
-    const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
+    const [isWideScreen] = useState(window.innerWidth >= 1400);
     const [isLandscape, setIsLandscape] = useState(window.matchMedia('(orientation: landscape)').matches);
     const [mainHeight, setMainHeight] = useState(window.innerHeight - 60);
     const [chartWidth, setChartWidth] = useState(window.innerWidth);
