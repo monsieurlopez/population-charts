@@ -20,12 +20,12 @@ body, html {
   object-fit: contain;
 }
 
-.container-chart {
+/*.container-chart {
   width: '100%';
   height: 'auto';
   overflow: 'hidden';
   position: 'relative';
-}
+}*/
 
 .center-dropdown-items .dropdown-item {
   display: flex;
@@ -47,7 +47,7 @@ button.position-fixed {
   }
 }
 
-@media (max-width: 993px) {
+/*@media (max-width: 993px) {
   .container-chart {
     margin-top: 0px !important;
   }
@@ -59,10 +59,13 @@ button.position-fixed {
   .container-chart {
     margin-top: 40px !important;
   }
+  #main {
+    top: 40px !important;
+  }
   .buttons-configuration {
     margin-top: 30px !important;
   }
-}
+}*/
 
 
 

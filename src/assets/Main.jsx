@@ -13,14 +13,27 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
     const [countryColors, setCountryColors] = useState({});
     const [generateChart, setGenerateChart] = useState(false);
     const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
-    const [isLandscape, setIsLandscape] = useState(
-        window.matchMedia('(orientation: landscape)').matches
-    );
+    const [isLandscape, setIsLandscape] = useState(window.matchMedia('(orientation: landscape)').matches);
+    const [mainHeight, setMainHeight] = useState(window.innerHeight - 60);
+    const [chartWidth, setChartWidth] = useState(window.innerWidth);
 
-    // Actualizar orientación al cargar y al rotar el dispositivo
+    // Calcular el ancho en función de la relación de aspecto (solo en modo horizontal)
+    const aspectRatio = 16 / 9; // Ancho:alto 16:9
+
+    useEffect(() => {
+        const updateHeight = () => {
+            setMainHeight(window.innerHeight - 60); // Ajusta la altura del contenedor
+        };
+
+        // Ajustar altura al cargar la página y al cambiar el tamaño o la orientación
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
+
+        return () => window.removeEventListener('resize', updateHeight);
+    }, []);
+
     useEffect(() => {
         const mediaQuery = window.matchMedia('(orientation: landscape)');
-
         const handleOrientationChange = (event) => {
             setIsLandscape(event.matches);
         };
@@ -34,13 +47,19 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
         };
     }, []);
 
-    // Detectar cambios en el tamaño de la pantalla
     useEffect(() => {
-        const handleResize = () => setIsWideScreen(window.innerWidth >= 1400);
-        window.addEventListener('resize', handleResize);
+        const updateDimensions = () => {
+            // Actualiza las dimensiones según la orientación
+            if (isLandscape) {
+                const newWidth = mainHeight * aspectRatio; // Calcular el ancho proporcional basado en el alto
+                setChartWidth(newWidth);
+            } else {
+                setChartWidth(window.innerWidth); // Usar el ancho completo en vertical
+            }
+        };
 
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+        updateDimensions();
+    }, [mainHeight, isLandscape, aspectRatio]);
 
     const handleCountrySelect = (updatedSet) => {
         setSelectedCountries(updatedSet);
@@ -66,7 +85,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
         <main
             id="main"
             className="container-fluid row text-center"
-            style={{ height: 'calc(100vh - 60px)', width: '100%' }}
+            style={{ height: `${mainHeight}px`, width: '100%' }}
         >
             {/* Sidebar de selección */}
             {isWideScreen ? (
@@ -98,8 +117,9 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                         <div
                             style={{
                                 display: isLandscape ? 'block' : 'none',
-                                width: '100%',
-                                height: '100%',
+                                width: `${chartWidth}px`, // Usar el ancho calculado
+                                height: '100%', // Alto al 100% del contenedor
+                                margin: '0 auto', // Centrar el gráfico
                             }}
                         >
                             <PopulationChart
