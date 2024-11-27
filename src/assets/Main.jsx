@@ -13,22 +13,24 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
     const [countryColors, setCountryColors] = useState({});
     const [generateChart, setGenerateChart] = useState(false);
     const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
-    const [isLandscape, setIsLandscape] = useState(window.matchMedia('(orientation: landscape)').matches);
+    const [isLandscape, setIsLandscape] = useState(
+        window.matchMedia('(orientation: landscape)').matches
+    );
 
-    // Detectar cambios de orientación
+    // Actualizar orientación al cargar y al rotar el dispositivo
     useEffect(() => {
-        const handleOrientationChange = () => {
-            setIsLandscape(window.matchMedia('(orientation: landscape)').matches);
+        const mediaQuery = window.matchMedia('(orientation: landscape)');
+
+        const handleOrientationChange = (event) => {
+            setIsLandscape(event.matches);
         };
 
-        // Escuchar cambios de orientación
-        window.addEventListener('orientationchange', handleOrientationChange);
+        // Escuchar cambios en la orientación
+        mediaQuery.addEventListener('change', handleOrientationChange);
 
-        // Inicializar el estado al cargar
-        handleOrientationChange();
-
+        // Limpieza del listener
         return () => {
-            window.removeEventListener('orientationchange', handleOrientationChange);
+            mediaQuery.removeEventListener('change', handleOrientationChange);
         };
     }, []);
 
@@ -54,9 +56,9 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
 
     const handleCreateChart = (colors) => {
         if (selectedCountries.size > 0) {
-            setCountryToChart(new Set(selectedCountries));
-            setCountryColors(colors);
-            setGenerateChart(true);
+            setCountryToChart(new Set(selectedCountries)); // Guarda los países seleccionados
+            setCountryColors(colors); // Guarda los colores
+            setGenerateChart(true); // Indica que la gráfica debe generarse
         }
     };
 
@@ -91,16 +93,36 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
             {/* Contenido principal */}
             <div className={`h-100 ${isWideScreen ? 'col-8' : 'w-100'}`} style={{ minHeight: '100vh', overflow: 'hidden' }}>
                 {countryToChart ? (
-                    isLandscape ? (
-                        <PopulationChart
-                            selectedCountries={countryToChart}
-                            countryColors={countryColors}
-                            generateChart={generateChart}
-                            onChartCreated={() => setGenerateChart(false)}
-                        />
-                    ) : (
-                        <RotateDevice />
-                    )
+                    <>
+                        {/* Gráfica */}
+                        <div
+                            style={{
+                                display: isLandscape ? 'block' : 'none',
+                                width: '100%',
+                                height: '100%',
+                            }}
+                        >
+                            <PopulationChart
+                                selectedCountries={countryToChart}
+                                countryColors={countryColors}
+                                generateChart={generateChart}
+                                onChartCreated={() => setGenerateChart(false)} // Una vez creada, detén la generación
+                            />
+                        </div>
+
+                        {/* Mensaje de rotación */}
+                        <div
+                            style={{
+                                display: isLandscape ? 'none' : 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: '100%',
+                                width: '100%',
+                            }}
+                        >
+                            <RotateDevice />
+                        </div>
+                    </>
                 ) : (
                     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                         <CreateInstructuions />
