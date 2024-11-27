@@ -2,16 +2,29 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden; /* Evita cualquier tipo de scroll en la página */
+    overflow: hidden;
   }
 
 #main {
   position: absolute;
-  top: 60px; /* Altura del header */
+  top: 60px;
   width: 100%;
-  height: calc(100vh - 60px); /* Calcula el tamaño exacto para que no exceda */
-  background-color: #f8f9fa; /* Fondo para diferenciarlo */
-  overflow: hidden; /* No permite scroll dentro del <main> */
+  height: calc(100vh - 60px);
+  background-color: #f8f9fa;
+  overflow: hidden;
+}
+
+#population_chart {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+.container-chart {
+  width: '100%';
+  height: 'auto';
+  overflow: 'hidden';
+  position: 'relative';
 }
 
 .center-dropdown-items .dropdown-item {
@@ -34,9 +47,22 @@ button.position-fixed {
   }
 }
 
-/*@media (min-width: 768px) {
+@media (max-width: 993px) {
   .container-chart {
-    margin-top: 0px;
+    margin-top: 0px !important;
   }
-}*/
+  .buttons-configuration {
+    margin-top: 0px !important;
+  }
+}
+@media (min-width: 992px) {
+  .container-chart {
+    margin-top: 40px !important;
+  }
+  .buttons-configuration {
+    margin-top: 30px !important;
+  }
+}
+
+
 

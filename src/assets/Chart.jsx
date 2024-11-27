@@ -129,15 +129,14 @@ const PopulationChart = ({ selectedCountries, countryColors, generateChart, onCh
 
   return (
     <>
-      <div className='d-flex flex-column justify-content-center'>
         {loading ? (
           <div className='container position-absolute top-50 start-50 translate-middle' style={{ height: 'auto' }}>
             <Spinner animation="border" role="status" />
           </div>
         ) : (
           Object.keys(populationData).length > 0 && (
-            <div className='container-chart mt-4' style={{ height: 'auto' }}>
-              <canvas id='population_chart' width="auto" height="auto"></canvas>
+            <div className='container-chart flex-column flex-grow-1' style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <canvas id='population_chart'></canvas>
             </div>
           )
         )}
@@ -151,7 +150,6 @@ const PopulationChart = ({ selectedCountries, countryColors, generateChart, onCh
             onClose={() => handleAlertClose(alert.id)}
           />
         ))}
-      </div>
     </>
   );
 };

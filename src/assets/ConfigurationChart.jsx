@@ -93,7 +93,7 @@ const ConfigurationChart = ({ chartRef }) => {
 
     return (
         <>
-            <div className='d-flex justify-content-between align-items-center mt-3'>
+            <div className='buttons-configuration d-flex flex-row justify-content-between align-items-center' style={{ width: '100%' }}>
                 <FontAwesomeIcon
                     type='button'
                     size='lg'

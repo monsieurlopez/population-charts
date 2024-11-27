@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -33,5 +33,12 @@ function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRigh
         </header>
     );
 }
+
+Header.propTypes = {
+    onToggleLeftPanel: PropTypes.func.isRequired,
+    onToggleRightPanel: PropTypes.func.isRequired,
+    showLeftPanel: PropTypes.bool.isRequired,
+    showRightPanel: PropTypes.bool.isRequired,
+};
 
 export default Header;

@@ -1,22 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Offcanvas } from 'react-bootstrap';
-import Header from './Header';
 import PopulationChart from './Chart';
 import CreateListCountries from './CreateListCountries.jsx';
 import SelectedCountries from './SelectedCountries.jsx';
+import PropTypes from 'prop-types';
 
-function Main() {
+function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightPanel }) {
     const [selectedCountries, setSelectedCountries] = useState(new Set());
     const [countryToChart, setCountryToChart] = useState(null);
     const [countryColors, setCountryColors] = useState({});
     const [generateChart, setGenerateChart] = useState(false);
     const [changeListOfCountries, setChangeListOfCountries] = useState(false);
-
-    const [showLeftPanel, setShowLeftPanel] = useState(false);
-    const [showRightPanel, setShowRightPanel] = useState(false);
     const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1400);
 
-    // Detecta cambios de tamaño de pantalla
     useEffect(() => {
         const handleResize = () => setIsWideScreen(window.innerWidth >= 1400);
         window.addEventListener('resize', handleResize);
@@ -31,7 +27,7 @@ function Main() {
     };
 
     const handleRemoveCountry = (country) => {
-        setSelectedCountries(prev => {
+        setSelectedCountries((prev) => {
             const updatedSet = new Set(prev);
             updatedSet.delete(country);
             return updatedSet;
@@ -48,82 +44,80 @@ function Main() {
     };
 
     return (
-        <>
-            {/* Header */}
-            <Header
-                onToggleLeftPanel={() => setShowLeftPanel(!showLeftPanel)}
-                onToggleRightPanel={() => setShowRightPanel(!showRightPanel)}
-                showLeftPanel={showLeftPanel}
-                showRightPanel={showRightPanel}
-            />
-
-            <main id="main" className="position-absolute row text-center" style={{ height: maxHeight, top: '60px', width: '100%' }}>
-                {/* Columna izquierda u Offcanvas */}
-                {isWideScreen ? (
-                    <div id="research" className="d-flex flex-column col-2 h-100">
+        <main
+            id="main"
+            className="container-fluid row text-center"
+            style={{ height: maxHeight, top: '60px', width: '100%' }}
+        >
+            {isWideScreen ? (
+                <div id="research" className="d-flex flex-column col-2 h-100">
+                    <CreateListCountries
+                        selectedCountries={selectedCountries}
+                        onCountrySelect={handleCountrySelect}
+                    />
+                </div>
+            ) : (
+                <Offcanvas show={showLeftPanel} onHide={onToggleLeftPanel} placement="start">
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title>Countries</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
                         <CreateListCountries
                             selectedCountries={selectedCountries}
                             onCountrySelect={handleCountrySelect}
                         />
-                    </div>
+                    </Offcanvas.Body>
+                </Offcanvas>
+            )}
+
+            <div className={`h-100 ${isWideScreen ? 'col-8' : 'w-100'}`} style={{ minHeight: '100vh', overflow: 'hidden' }}>
+                {countryToChart ? (
+                    <PopulationChart
+                        selectedCountries={countryToChart}
+                        countryColors={countryColors}
+                        generateChart={generateChart}
+                        onChartCreated={() => setGenerateChart(false)}
+                    />
                 ) : (
-                    <Offcanvas show={showLeftPanel} onHide={() => setShowLeftPanel(false)} placement="start">
-                        <Offcanvas.Header closeButton>
-                            <Offcanvas.Title>Countries</Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            <CreateListCountries
-                                selectedCountries={selectedCountries}
-                                onCountrySelect={handleCountrySelect}
-                            />
-                        </Offcanvas.Body>
-                    </Offcanvas>
+                    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '600px' }}>
+                        <h3>No chart available</h3>
+                    </div>
                 )}
+            </div>
 
-                {/* Columna central */}
-                <div className={`h-100 ${isWideScreen ? 'col-8' : 'col-12'}`}>
-                    {countryToChart ? (
-                        <PopulationChart
-                            selectedCountries={countryToChart}
-                            countryColors={countryColors}
-                            generateChart={generateChart}
-                            onChartCreated={() => setGenerateChart(false)}
-                        />
-                    ) : (
-                        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "600px" }}>
-                            <h3>No chart available</h3>
-                        </div>
-                    )}
+            {isWideScreen ? (
+                <div id="selection" className="col-2 mt-2 flex-column">
+                    <SelectedCountries
+                        selectedCountries={selectedCountries}
+                        onRemoveCountry={handleRemoveCountry}
+                        onGenerateChart={handleCreateChart}
+                        changeListOfCountries={changeListOfCountries}
+                    />
                 </div>
-
-                {/* Columna derecha u Offcanvas */}
-                {isWideScreen ? (
-                    <div id="selection" className="col-2 mt-2 flex-column">
+            ) : (
+                <Offcanvas show={showRightPanel} onHide={onToggleRightPanel} placement="end">
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title>Selected Countries</Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
                         <SelectedCountries
                             selectedCountries={selectedCountries}
                             onRemoveCountry={handleRemoveCountry}
                             onGenerateChart={handleCreateChart}
                             changeListOfCountries={changeListOfCountries}
                         />
-                    </div>
-                ) : (
-                    <Offcanvas show={showRightPanel} onHide={() => setShowRightPanel(false)} placement="end">
-                        <Offcanvas.Header closeButton>
-                            <Offcanvas.Title>Selected Countries</Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            <SelectedCountries
-                                selectedCountries={selectedCountries}
-                                onRemoveCountry={handleRemoveCountry}
-                                onGenerateChart={handleCreateChart}
-                                changeListOfCountries={changeListOfCountries}
-                            />
-                        </Offcanvas.Body>
-                    </Offcanvas>
-                )}
-            </main>
-        </>
+                    </Offcanvas.Body>
+                </Offcanvas>
+            )}
+        </main>
     );
 }
+
+Main.propTypes = {
+    onToggleLeftPanel: PropTypes.func.isRequired, // Función requerida
+    onToggleRightPanel: PropTypes.func.isRequired, // Función requerida
+    showLeftPanel: PropTypes.bool.isRequired, // Booleano requerido
+    showRightPanel: PropTypes.bool.isRequired, // Booleano requerido
+};
 
 export default Main;
