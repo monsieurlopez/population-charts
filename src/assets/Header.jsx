@@ -8,13 +8,10 @@ function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRigh
         <header id="header" className="position-fixed top-0 w-100 bg-secondary-subtle d-flex align-items-center justify-content-between px-3" style={{ height: '60px' }}>
             <Button
                 variant="link"
-                className="button-offCanvas text-secondary p-0"
+                className={`button-offCanvas text-secondary ${focusSearchIcon ? 'focus-animation' : ''}`} // Clase animada aplicada al botón
                 onClick={onToggleLeftPanel}
-                style={{ fontSize: '1.5rem' }}
             >
-                <FontAwesomeIcon icon={showLeftPanel ? faTimes : faSearch}
-                className={focusSearchIcon ? 'focus-animation' : ''}
-                />
+                <FontAwesomeIcon icon={showLeftPanel ? faTimes : faSearch} />
             </Button>
 
             <div className="text-center d-flex align-items-center justify-content-center flex-grow-1">

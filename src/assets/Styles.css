@@ -39,6 +39,10 @@ button.position-fixed {
   }
 }
 
+.focus-animation {
+  animation: focusAnimation 1s infinite ease-in-out;
+}
+
 @keyframes focusAnimation {
   0% {
       transform: scale(1);
@@ -54,14 +58,18 @@ button.position-fixed {
   }
 }
 
-.focus-animation {
-  animation: focusAnimation 1s infinite ease-in-out;
-}
-
 @media (max-width: 1400px) {
   .title-countries {
     display: none;
   }
 }
+
+#offcanvas-createList .offcanvas-header .btn-close {
+  margin: auto;
+  padding: auto;
+  align-self: center;
+}
+
+
 
 

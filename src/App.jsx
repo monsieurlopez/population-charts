@@ -9,6 +9,7 @@ function App() {
   const [showRightPanel, setShowRightPanel] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1400);
   const [focusSearchIcon, setFocusSearchIcon] = useState(false);
+  const [hasClickedSearchIcon, setHasClickedSearchIcon] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,18 +20,25 @@ function App() {
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
-}, []);
+  }, []);
 
-useEffect(() => {
-  // Si la pantalla es pequeña y el panel izquierdo está cerrado, activar la animación en bucle
-  if (isSmallScreen && !showLeftPanel) {
-      setFocusSearchIcon(true); // Activar la animación
-  } else {
-      setFocusSearchIcon(false); // Detener la animación cuando el panel izquierdo se abre
-  }
-}, [showLeftPanel, isSmallScreen]);
+  useEffect(() => {
+    // Si el panel derecho está abierto, desactivamos la animación
+    if (showRightPanel) {
+      setFocusSearchIcon(false);
+    } else if (hasClickedSearchIcon || !isSmallScreen || showLeftPanel) {
+      // Si se hizo clic o si el panel izquierdo está abierto, desactivamos la animación
+      setFocusSearchIcon(false);
+    } else {
+      // Si la pantalla es pequeña y el panel izquierdo está cerrado, activamos la animación
+      setFocusSearchIcon(true);
+    }
+  }, [showLeftPanel, showRightPanel, isSmallScreen, hasClickedSearchIcon]);
 
   const handleToggleLeftPanel = () => {
+    if (!hasClickedSearchIcon) {
+      setHasClickedSearchIcon(true);
+    }
     setShowLeftPanel(!showLeftPanel);
   };
 

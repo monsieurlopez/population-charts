@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react';
 const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart }) => {
   const [countryColors, setCountryColors] = useState({}); // Guardar colores seleccionados localmente
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [buttonText, setButtonText] = useState("Generate chart");
-  const [firstGeneration, setFirstGeneration] = useState(false);
 
   useEffect(() => {
     // Inicializar colores por defecto para cada país seleccionado, si aún no tiene uno
@@ -20,22 +18,19 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
       return updatedColors;
     });
 
-    if (firstGeneration === false && selectedCountries.size === 0) {
-      setButtonText("Generate chart");
+    if (selectedCountries.size === 0) {
       setIsButtonDisabled(true);
-    } else if (firstGeneration === false && selectedCountries.size !== 0 ) {
+    } else if (selectedCountries.size !== 0 ) {
       setIsButtonDisabled(false);
     }else {
       if (selectedCountries.size === 0) {
-        setButtonText("Generate chart");
         setIsButtonDisabled(true);
       } else {
-        setButtonText("Update chart");
         setIsButtonDisabled(false);
       }
     }
 
-  }, [selectedCountries, firstGeneration]);
+  }, [selectedCountries]);
 
   // Función para manejar cambios de color solo a nivel local
   const handleColorChange = (country, newColor) => {
@@ -48,7 +43,6 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
   // Manejar la generación del gráfico y enviar colores al padre
   const handleGenerateChart = () => {
     onGenerateChart(countryColors);
-    setFirstGeneration(true);
     setIsButtonDisabled(true);
   };
 
@@ -63,9 +57,9 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
             <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
               {country}
               <div className="d-flex align-items-center">
-                <input 
+                <input
                   type="color"
-                  value={countryColors[country] || "#e66465"} 
+                  value={countryColors[country] || "#e66465"}
                   onChange={(e) => handleColorChange(country, e.target.value)}
                   style={{ width: '20px', height: '20px', marginRight: '5px' }}
                 />
@@ -80,10 +74,10 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
         id='create_chart'
         variant='primary mt-1'
         size='sm'
-        onClick={handleGenerateChart}
-        disabled={isButtonDisabled}
+        onClick={ handleGenerateChart }
+        disabled={ isButtonDisabled }
       >
-      {buttonText}
+      Create chart
       </Button>
     </>
   );
@@ -91,7 +85,7 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
 
 SelectedCountries.propTypes = {
   selectedCountries: PropTypes.instanceOf(Set).isRequired,
-  onRemoveCountry: PropTypes.func.isRequired, 
+  onRemoveCountry: PropTypes.func.isRequired,
   onGenerateChart: PropTypes.func.isRequired,
 };
 

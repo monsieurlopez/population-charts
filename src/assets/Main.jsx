@@ -18,9 +18,21 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
     const [isLandscape, setIsLandscape] = useState(window.matchMedia('(orientation: landscape)').matches);
     const [mainHeight, setMainHeight] = useState(window.innerHeight - 60);
     const [chartWidth, setChartWidth] = useState(window.innerWidth);
+    const [ deviceType, setDeviceType ] = useState(null);
 
     // Calcular el ancho en función de la relación de aspecto (solo en modo horizontal)
     const aspectRatio = 16 / 9; // Ancho:alto 16:9
+
+    useEffect(() => {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        if (/mobile/i.test(userAgent)) {
+            setDeviceType("Mobile");
+        } else if (/tablet|ipad|playbook|silk/i.test(userAgent)) {
+            setDeviceType("Tablet");
+        } else {
+            setDeviceType("Desktop");
+        }
+    }, []);
 
     useEffect(() => {
         const updateHeight = () => {
@@ -77,14 +89,20 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
 
     const handleCreateChart = (colors) => {
         if (selectedCountries.size > 0) {
-            setCountryToChart(new Set(selectedCountries)); // Guarda los países seleccionados
-            setCountryColors(colors); // Guarda los colores
-            setGenerateChart(true); // Indica que la gráfica debe generarse
+            setCountryToChart(new Set(selectedCountries));
+            setCountryColors(colors);
+            setGenerateChart(true);
+            onToggleRightPanel();
         }
     };
 
     const changePanel = () => {
-        console.log('changePanel');
+        if (showLeftPanel) {
+            onToggleLeftPanel();
+        }
+        if (!showRightPanel) {
+            onToggleRightPanel();
+        }
     };
 
     return (
@@ -102,17 +120,19 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                     />
                 </div>
             ) : (
-                <Offcanvas show={showLeftPanel} onHide={onToggleLeftPanel} placement="start">
-                    <Offcanvas.Header closeButton>
-                        <div className="d-flex align-items-center w-100 justify-content-between">
-                            <Offcanvas.Title>List of Countries</Offcanvas.Title>
+                <Offcanvas id='offcanvas-createList' show={showLeftPanel} onHide={onToggleLeftPanel} placement="start">
+                    <Offcanvas.Header closeButton className="align-items-center">
+                        <div className="d-flex w-100 justify-content-between align-items-center">
+                            <Offcanvas.Title className="me-auto">List of Countries</Offcanvas.Title>
                             <Button
                                 variant="link"
-                                className="text-secondary p-0 ms-2"
+                                className="text-secondary p-0 me-2"
                                 onClick={changePanel}
-                                style={{ fontSize: '1.5rem' }}
+                                style={{ fontSize: '1.3rem' }}
                             >
-                                <FontAwesomeIcon icon={faArrowRight} />
+                                {selectedCountries.size > 0 && (
+                                    <FontAwesomeIcon icon={faArrowRight} />
+                                )}
                             </Button>
                         </div>
                     </Offcanvas.Header>
@@ -134,7 +154,8 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                         <div
                             style={{
                                 display: isLandscape ? 'block' : 'none',
-                                width: isWideScreen ?  '' : `${chartWidth}px`,
+                                width: (isWideScreen && deviceType !== "Tablet") ?  '' : `${chartWidth}px`,
+                                /*width: isWideScreen ?  '' : '',*/
                                 height: '100%',
                                 margin: '0 auto',
                             }}
