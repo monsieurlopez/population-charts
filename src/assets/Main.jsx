@@ -117,7 +117,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                         <div
                             style={{
                                 display: isLandscape ? 'block' : 'none',
-                                width: `${chartWidth}px`,
+                                width: isWideScreen ?  '' : `${chartWidth}px`,
                                 height: '100%',
                                 margin: '0 auto',
                             }}
