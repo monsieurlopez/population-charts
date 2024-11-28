@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Offcanvas } from 'react-bootstrap';
+import { Offcanvas, Button } from 'react-bootstrap';
 import PopulationChart from './Chart';
 import CreateListCountries from './CreateListCountries.jsx';
 import SelectedCountries from './SelectedCountries.jsx';
 import CreateInstructuions from './tools/Instructions.jsx';
 import RotateDevice from './tools/RotateDevice.jsx';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightPanel }) {
     const [selectedCountries, setSelectedCountries] = useState(new Set());
@@ -81,6 +83,10 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
         }
     };
 
+    const changePanel = () => {
+        console.log('changePanel');
+    };
+
     return (
         <main
             id="main"
@@ -98,7 +104,17 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
             ) : (
                 <Offcanvas show={showLeftPanel} onHide={onToggleLeftPanel} placement="start">
                     <Offcanvas.Header closeButton>
-                        <Offcanvas.Title>Countries</Offcanvas.Title>
+                        <div className="d-flex align-items-center w-100 justify-content-between">
+                            <Offcanvas.Title>List of Countries</Offcanvas.Title>
+                            <Button
+                                variant="link"
+                                className="text-secondary p-0 ms-2"
+                                onClick={changePanel}
+                                style={{ fontSize: '1.5rem' }}
+                            >
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </Button>
+                        </div>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <CreateListCountries
@@ -107,6 +123,7 @@ function Main({ showLeftPanel, showRightPanel, onToggleLeftPanel, onToggleRightP
                         />
                     </Offcanvas.Body>
                 </Offcanvas>
+
             )}
 
             {/* Contenido principal */}

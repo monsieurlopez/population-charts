@@ -54,7 +54,7 @@ const SelectedCountries = ({ selectedCountries, onRemoveCountry, onGenerateChart
 
   return (
     <>
-      <h4>Selected Countries</h4>
+      <h4 className='title-countries'>Selected Countries</h4>
       {selectedCountries.size === 0 ? (
         <p>No countries selected</p>
       ) : (

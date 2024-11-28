@@ -13,7 +13,7 @@ function Header({ onToggleLeftPanel, onToggleRightPanel, showLeftPanel, showRigh
                 style={{ fontSize: '1.5rem' }}
             >
                 <FontAwesomeIcon icon={showLeftPanel ? faTimes : faSearch}
-                className={focusSearchIcon ? 'focus-animation' : ''} 
+                className={focusSearchIcon ? 'focus-animation' : ''}
                 />
             </Button>
 

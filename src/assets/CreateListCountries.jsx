@@ -52,7 +52,7 @@ const CreateListCountries = ({ selectedCountries, onCountrySelect }) => {
 
     return (
         <>
-            <h4>List of Countries</h4>
+            <h4 className="title-countries">List of Countries</h4>
             <Form.Control
                 type="text"
                 placeholder="Search for a country..."
