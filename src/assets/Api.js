@@ -3,10 +3,12 @@ import axios from 'axios';
 // Llamada a la API para obtener la lista de países
 export const fetchCountries = async () => {
     try {
-        const response = await axios.get('https://countriesnow.space/api/v0.1/countries');
+        const response = await axios.get('https://countriesnow.space/api/v0.1/countries/info?returns=currency,flag,capital,iso3');
         if (response.data && response.data.data) {
-            const countryNames = response.data.data.map(country => country.country);
-            return countryNames;  // Retorna la lista de nombres de países
+            //const countryNames = response.data.data.map(country => country.country);
+            //return countryNames;
+            console.log("LLamda API");
+            return response.data.data;  // Retorna la lista de nombres de países
         } else {
             console.error('No data found');
             return [];  // Si no hay datos, retornar un array vacío
@@ -27,6 +29,7 @@ export const fetchPopulationData = async (selectedCountry) => {
       // Verificar si la respuesta es exitosa (estado HTTP 200)
       if (response.status === 200) {
         const data = response.data;
+        console.log(response.data);
   
         // Verificar que no haya errores en la respuesta y que existan los datos
         if (data.error === false && data.data && data.data.populationCounts) {
