@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { fetchCountries } from "../Api.js";
 import { DataTable } from "primereact/datatable";
@@ -8,7 +9,7 @@ import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
 import { ButtonGroup } from "react-bootstrap";
 
-export const CreateTable = () => {
+export const CreateTable = ({ onSelectionChange }) => {
   const [countries, setCountries] = useState([]); // Estado para guardar los países
   const [selectedCountries, setSelectedCountries] = useState([]); // Estado para selección de filas
   const [filters, setFilters] = useState(null); // Estado de los filtros
@@ -24,9 +25,10 @@ export const CreateTable = () => {
   }, []);
 
   useEffect(() => {
-    // Imprime la lista de países seleccionados
-    console.log(selectedCountries);
-  }, [selectedCountries]);
+    if (onSelectionChange) {
+      onSelectionChange(selectedCountries);
+    }
+  }, [selectedCountries, onSelectionChange]);
 
   const initFilters = () => {
     setFilters({
@@ -101,63 +103,65 @@ export const CreateTable = () => {
   };
 
   return (
-    <main className="main">
-      <div className="container m-auto text-center">
-        <h3>Country Information</h3>
-        <DataTable
-          value={countries}
-          paginator
-          rows={10}
-          rowsPerPageOptions={[5, 10, 25, 50]}
-          paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}"
-          paginatorLeft={paginatorLeft}
-          paginatorRight={paginatorRight}
-          selectionMode="checkbox"
-          selection={selectedCountries}
-          onSelectionChange={(e) => setSelectedCountries(e.value)}
-          dataKey="iso3"
-          filters={filters}
-          globalFilterFields={["name", "capital", "iso3", "currency"]}
-          header={renderHeader()}
-          emptyMessage="No countries found."
-        >
-          <Column
-            selectionMode="multiple"
-            headerStyle={{ width: "3rem" }}
-          ></Column>
-          <Column
-            field="flag"
-            header="Flag"
-            body={flagTemplate}
-            style={{ minWidth: "50px" }}
-          />
-          <Column
-            field="name"
-            header="Country"
-            sortable
-            style={{ minWidth: "150px" }}
-          />
-          <Column
-            field="capital"
-            header="Capital"
-            sortable
-            style={{ minWidth: "150px" }}
-          />
-          <Column
-            field="iso3"
-            header="ISO Code"
-            sortable
-            style={{ minWidth: "100px" }}
-          />
-          <Column
-            field="currency"
-            header="Currency"
-            sortable
-            style={{ minWidth: "150px" }}
-          />
-        </DataTable>
-      </div>
-    </main>
+    <div className="container m-auto text-center">
+      <h3>Country Information</h3>
+      <DataTable
+        value={countries}
+        paginator
+        rows={10}
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+        currentPageReportTemplate="{first} to {last} of {totalRecords}"
+        paginatorLeft={paginatorLeft}
+        paginatorRight={paginatorRight}
+        selectionMode="checkbox"
+        selection={selectedCountries}
+        onSelectionChange={(e) => setSelectedCountries(e.value)}
+        dataKey="iso3"
+        filters={filters}
+        globalFilterFields={["name", "capital", "iso3", "currency"]}
+        header={renderHeader()}
+        emptyMessage="No countries found."
+      >
+        <Column
+          selectionMode="multiple"
+          headerStyle={{ width: "3rem" }}
+        ></Column>
+        <Column
+          field="flag"
+          header="Flag"
+          body={flagTemplate}
+          style={{ minWidth: "50px" }}
+        />
+        <Column
+          field="name"
+          header="Country"
+          sortable
+          style={{ minWidth: "150px" }}
+        />
+        <Column
+          field="capital"
+          header="Capital"
+          sortable
+          style={{ minWidth: "150px" }}
+        />
+        <Column
+          field="iso3"
+          header="ISO Code"
+          sortable
+          style={{ minWidth: "100px" }}
+        />
+        <Column
+          field="currency"
+          header="Currency"
+          sortable
+          style={{ minWidth: "150px" }}
+        />
+      </DataTable>
+    </div>
   );
-}
+};
+
+CreateTable.propTypes = {
+  onSelectionChange: PropTypes.func,
+};
