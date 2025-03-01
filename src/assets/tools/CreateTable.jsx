@@ -10,10 +10,10 @@ import { Button } from "primereact/button";
 import { ButtonGroup } from "react-bootstrap";
 
 export const CreateTable = ({ onSelectionChange }) => {
-  const [countries, setCountries] = useState([]); // Estado para guardar los países
-  const [selectedCountries, setSelectedCountries] = useState([]); // Estado para selección de filas
-  const [filters, setFilters] = useState(null); // Estado de los filtros
-  const [globalFilterValue, setGlobalFilterValue] = useState(""); // Estado del filtro global
+  const [countries, setCountries] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [filters, setFilters] = useState(null);
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
 
   useEffect(() => {
     const getCountries = async () => {
@@ -43,7 +43,7 @@ export const CreateTable = ({ onSelectionChange }) => {
   };
 
   const clearSelection = () => {
-    setSelectedCountries([]); // Deselecciona todas las filas
+    setSelectedCountries([]);
   };
 
   const onGlobalFilterChange = (e) => {
@@ -55,7 +55,6 @@ export const CreateTable = ({ onSelectionChange }) => {
     setGlobalFilterValue(value);
   };
 
-  // Función para renderizar la bandera
   const flagTemplate = (rowData) => {
     return (
       <img
@@ -66,11 +65,9 @@ export const CreateTable = ({ onSelectionChange }) => {
     );
   };
 
-  // Botones de paginación personalizados
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
   const paginatorRight = <Button type="button" icon="pi pi-download" text />;
 
-  // Header con el filtro de búsqueda
   const renderHeader = () => {
     return (
       <div className="flex justify-content-between">
