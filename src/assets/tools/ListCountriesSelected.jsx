@@ -1,15 +1,18 @@
 //import React from "react";
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+import { Badge } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const ListCountriesSelected = ({ selectedCountries }) => {
   return (
     <div>
-      <h4>Selected Countries</h4>
-      <ul>
+      <div>
         {selectedCountries.map((country) => (
-          <li key={country.iso3}>{country.name}</li>
+          <Badge key={country.iso3} pill bg="dark" className="mr-2">
+            {country.name}
+          </Badge>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
