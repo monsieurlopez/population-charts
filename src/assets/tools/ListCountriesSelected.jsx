@@ -5,15 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const ListCountriesSelected = ({ selectedCountries }) => {
   return (
-    <div>
-      <div>
+      <div className='my-2'>
         {selectedCountries.map((country) => (
           <Badge key={country.iso3} pill bg="dark" className="mr-2">
             {country.name}
           </Badge>
         ))}
       </div>
-    </div>
   );
 };
 
