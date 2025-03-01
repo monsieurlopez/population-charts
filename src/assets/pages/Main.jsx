@@ -7,10 +7,11 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
+import { ButtonGroup } from "react-bootstrap";
 
 function Main() {
   const [countries, setCountries] = useState([]); // Estado para guardar los países
-  const [selectedCountries, setSelectedCountries] = useState(null); // Estado para selección de filas
+  const [selectedCountries, setSelectedCountries] = useState([]); // Estado para selección de filas
   const [filters, setFilters] = useState(null); // Estado de los filtros
   const [globalFilterValue, setGlobalFilterValue] = useState(""); // Estado del filtro global
 
@@ -23,6 +24,11 @@ function Main() {
     initFilters();
   }, []);
 
+  useEffect(() => {
+    // Imprime la lista de países seleccionados
+    console.log(selectedCountries);
+  }, [selectedCountries]);
+
   const initFilters = () => {
     setFilters({
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -32,8 +38,12 @@ function Main() {
 
   const clearFilter = () => {
     setFilters({ global: { value: null } });
-    setGlobalFilterValue('');
-};
+    setGlobalFilterValue("");
+  };
+
+  const clearSelection = () => {
+    setSelectedCountries([]); // Deselecciona todas las filas
+  };
 
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
@@ -46,7 +56,13 @@ function Main() {
 
   // Función para renderizar la bandera
   const flagTemplate = (rowData) => {
-    return <img src={rowData.flag} alt={rowData.name} style={{ width: 40, height: 20 }} />;
+    return (
+      <img
+        src={rowData.flag}
+        alt={rowData.name}
+        style={{ width: 40, height: 20 }}
+      />
+    );
   };
 
   // Botones de paginación personalizados
@@ -56,12 +72,34 @@ function Main() {
   // Header con el filtro de búsqueda
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-between">
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
-            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search..." />
-        </div>
+      <div className="flex justify-content-between">
+        <ButtonGroup>
+          <Button
+            type="button"
+            icon="pi pi-filter-slash"
+            label="Clear Filter"
+            outlined
+            size="small"
+            onClick={clearFilter}
+          />
+          <Button
+            type="button"
+            icon="pi pi-times"
+            label="Clear Selection"
+            outlined
+            size="small"
+            onClick={clearSelection}
+          />
+        </ButtonGroup>
+
+        <InputText
+          value={globalFilterValue}
+          onChange={onGlobalFilterChange}
+          placeholder="Search..."
+        />
+      </div>
     );
-};
+  };
 
   return (
     <main className="main">
@@ -85,12 +123,40 @@ function Main() {
           header={renderHeader()}
           emptyMessage="No countries found."
         >
-          <Column selectionMode="multiple" headerStyle={{ width: "3rem" }}></Column>
-          <Column field="flag" header="Flag" body={flagTemplate} style={{ minWidth: "50px" }} />
-          <Column field="name" header="Country" sortable style={{ minWidth: "150px" }} />
-          <Column field="capital" header="Capital" sortable style={{ minWidth: "150px" }} />
-          <Column field="iso3" header="ISO Code" sortable style={{ minWidth: "100px" }} />
-          <Column field="currency" header="Currency" sortable style={{ minWidth: "150px" }} />
+          <Column
+            selectionMode="multiple"
+            headerStyle={{ width: "3rem" }}
+          ></Column>
+          <Column
+            field="flag"
+            header="Flag"
+            body={flagTemplate}
+            style={{ minWidth: "50px" }}
+          />
+          <Column
+            field="name"
+            header="Country"
+            sortable
+            style={{ minWidth: "150px" }}
+          />
+          <Column
+            field="capital"
+            header="Capital"
+            sortable
+            style={{ minWidth: "150px" }}
+          />
+          <Column
+            field="iso3"
+            header="ISO Code"
+            sortable
+            style={{ minWidth: "100px" }}
+          />
+          <Column
+            field="currency"
+            header="Currency"
+            sortable
+            style={{ minWidth: "150px" }}
+          />
         </DataTable>
       </div>
     </main>
