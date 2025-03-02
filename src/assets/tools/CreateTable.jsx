@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { fetchCountries } from "../Api.js";
+import { fetchCountries, fetchPopulationData } from "../Api.js";
 //* Prime React Component *//
 import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -15,7 +15,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
   const [countries, setCountries] = useState([]);
-  //const [selectedCountries, setSelectedCountries] = useState([]);
   const [filters, setFilters] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
@@ -39,6 +38,7 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
         console.log(selectedCountries);
         prevSelected.current = selectedCountries;
         onSelectionChange(selectedCountries);
+        fetchPopulationData(selectedCountries);
       }
     }
   }, [selectedCountries, onSelectionChange]);
