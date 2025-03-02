@@ -1,7 +1,8 @@
-import React from "react";
+//import React from "react";
 import PropTypes from 'prop-types';
-import { Badge, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import closeIcon from '../images/svg/close-icon.svg'
 
 export const ListCountriesSelected = ({ selectedCountries, setSelectedCountries }) => {
 
@@ -15,17 +16,15 @@ export const ListCountriesSelected = ({ selectedCountries, setSelectedCountries 
   return (
     <div className='my-2'>
       {selectedCountries.map((country) => (
-        <Badge key={country.iso3} pill bg="dark" className="mr-2" style={{ padding: "8px", marginRight: "5px" }}>
-          {country.name}
           <Button
+            key={country.iso3}
             variant="light"
             size="sm"
-            style={{ marginLeft: "8px", padding: "0px 5px", borderRadius: "50%" }}
+            className='m-1'
             onClick={() => removeCountry(country.iso3)} // Eliminar el país al hacer clic
           >
-            ✖
+            {country.name} <img src={closeIcon} alt="close icon" style={{ width: '0.5rem' }}/>
           </Button>
-        </Badge>
       ))}
     </div>
   );
