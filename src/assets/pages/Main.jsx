@@ -13,8 +13,8 @@ export const Main = () => {
 
   return (
     <main className="main text-center">
-      <ListCountriesSelected selectedCountries={selectedCountries} />
-      <CreateTable onSelectionChange={handleSelectionChange} />
+      <ListCountriesSelected selectedCountries={selectedCountries} setSelectedCountries={setSelectedCountries}/>
+      <CreateTable onSelectionChange={handleSelectionChange} selectedCountries={selectedCountries} />
     </main>
   );
 };

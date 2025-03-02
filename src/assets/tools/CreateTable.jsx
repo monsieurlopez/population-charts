@@ -1,19 +1,25 @@
-import { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { fetchCountries } from "../Api.js";
+//* Prime React Component *//
+import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
-import { FilterMatchMode } from "primereact/api";
-import { Button } from "primereact/button";
-import { ButtonGroup } from "react-bootstrap";
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+//* Bootstrap React Component *//
+import Button from "react-bootstrap/Button";
+import { Stack } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export const CreateTable = ({ onSelectionChange }) => {
+export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
   const [countries, setCountries] = useState([]);
-  const [selectedCountries, setSelectedCountries] = useState([]);
+  //const [selectedCountries, setSelectedCountries] = useState([]);
   const [filters, setFilters] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
+
+  const prevSelected = useRef([]);
 
   useEffect(() => {
     const getCountries = async () => {
@@ -26,7 +32,14 @@ export const CreateTable = ({ onSelectionChange }) => {
 
   useEffect(() => {
     if (onSelectionChange) {
-      onSelectionChange(selectedCountries);
+      if (
+        JSON.stringify(prevSelected.current) !==
+        JSON.stringify(selectedCountries)
+      ) {
+        console.log(selectedCountries);
+        prevSelected.current = selectedCountries;
+        onSelectionChange(selectedCountries);
+      }
     }
   }, [selectedCountries, onSelectionChange]);
 
@@ -43,7 +56,7 @@ export const CreateTable = ({ onSelectionChange }) => {
   };
 
   const clearSelection = () => {
-    setSelectedCountries([]);
+    onSelectionChange([]);
   };
 
   const onGlobalFilterChange = (e) => {
@@ -65,36 +78,33 @@ export const CreateTable = ({ onSelectionChange }) => {
     );
   };
 
-  const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
-  const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+  //const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+  //const paginatorRight = <Button type="button" icon="pi pi-download" text />;
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-between">
-        <ButtonGroup>
+      <div className="flex justify-content-between align-items-center">
+        <Stack direction="horizontal" gap={1}>
+          <Button variant="outline-secondary" onClick={clearFilter} size="sm">
+            Clear Filter
+          </Button>
           <Button
-            type="button"
-            icon="pi pi-filter-slash"
-            label="Clear Filter"
-            outlined
-            size="small"
-            onClick={clearFilter}
-          />
-          <Button
-            type="button"
-            icon="pi pi-times"
-            label="Clear Selection"
-            outlined
-            size="small"
+            variant="outline-secondary"
             onClick={clearSelection}
-          />
-        </ButtonGroup>
+            size="sm"
+          >
+            Clear Selection
+          </Button>
+        </Stack>
 
-        <InputText
-          value={globalFilterValue}
-          onChange={onGlobalFilterChange}
-          placeholder="Search..."
-        />
+        <IconField iconPosition="left">
+          <InputIcon className="pi pi-search" />
+          <InputText
+            value={globalFilterValue}
+            onChange={onGlobalFilterChange}
+            placeholder="Search"
+          />
+        </IconField>
       </div>
     );
   };
@@ -109,16 +119,19 @@ export const CreateTable = ({ onSelectionChange }) => {
         rowsPerPageOptions={[5, 10, 25, 50]}
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} to {last} of {totalRecords}"
-        paginatorLeft={paginatorLeft}
-        paginatorRight={paginatorRight}
+        //paginatorLeft={paginatorLeft}
+        //paginatorRight={paginatorRight}
         selectionMode="checkbox"
         selection={selectedCountries}
-        onSelectionChange={(e) => setSelectedCountries(e.value)}
+        onSelectionChange={(e) => onSelectionChange(e.value)}
         dataKey="iso3"
         filters={filters}
         globalFilterFields={["name", "capital", "iso3", "currency"]}
         header={renderHeader()}
         emptyMessage="No countries found."
+        scrollable
+        scrollHeight="550px"
+        style={{ minWidth: "50rem" }}
       >
         <Column
           selectionMode="multiple"
@@ -160,5 +173,11 @@ export const CreateTable = ({ onSelectionChange }) => {
 };
 
 CreateTable.propTypes = {
-  onSelectionChange: PropTypes.func,
+  onSelectionChange: PropTypes.func.isRequired,
+  selectedCountries: PropTypes.arrayOf(
+    PropTypes.shape({
+      iso3: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
