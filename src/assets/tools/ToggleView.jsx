@@ -34,7 +34,6 @@ export const CreateToggleButton = ( {onToggleChange  }) => {
             value={radio.value}
             checked={radioValue === radio.value}
             onChange={(e) => handleToggleChange(e.currentTarget.value)}
-            className={radioValue === radio.value ? 'togglebutton--checked' : ''}
           >
             <img src={radio.icon} alt={`${radio.name} icon`} className='icon__radio' />
             {radio.name}
