@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Header } from './assets/pages/Header.jsx';
 import { Main } from './assets/pages/Main.jsx';
@@ -12,7 +12,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 
 export default function App() {
-  const [view, setView] = useState('table'); // Estado para controlar la vista
+  const [view, setView] = useState('table');
 
   const handleToggleChange = (value) => {
     setView(value === '1' ? 'table' : 'chart');
