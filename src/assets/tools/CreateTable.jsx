@@ -13,8 +13,8 @@ import Button from "react-bootstrap/Button";
 import { Stack } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
-  const [populationData, setPopulationData] = useState(null);
+export const CreateTable = ({ onSelectionChange, selectedCountries, setPopulationData }) => {
+  const [populationData, setPopulationDataLocal] = useState(null);
   const [countries, setCountries] = useState([]);
   const [filters, setFilters] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -24,10 +24,11 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
   useEffect(() => {
     const getPopulation = async () => {
       const data = await fetchPopulationData();
+      setPopulationDataLocal(data);
       setPopulationData(data);
     };
     getPopulation();
-  }, []);
+  }, [setPopulationData]);
 
   useEffect(() => {
     const getCountries = async () => {
@@ -123,7 +124,6 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
 
   return (
     <div className="container m-auto text-center">
-      <h3>Country Information</h3>
       <DataTable
         value={countries}
         paginator
@@ -152,31 +152,26 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
           field="flag"
           header="Flag"
           body={flagTemplate}
-          style={{ minWidth: "50px" }}
         />
         <Column
           field="name"
           header="Country"
           sortable
-          style={{ minWidth: "150px" }}
         />
         <Column
           field="capital"
           header="Capital"
           sortable
-          style={{ minWidth: "150px" }}
         />
         <Column
           field="iso3"
           header="ISO Code"
           sortable
-          style={{ minWidth: "100px" }}
         />
         <Column
           field="currency"
           header="Currency"
           sortable
-          style={{ minWidth: "150px" }}
         />
       </DataTable>
     </div>
@@ -191,4 +186,5 @@ CreateTable.propTypes = {
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
+  setPopulationData: PropTypes.func.isRequired,
 };
