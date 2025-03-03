@@ -83,6 +83,20 @@ export const CreateChart = ({ selectedCountries, populationData }) => {
       data: data,
       options: options,
     });
+
+     // Agregar el listener para el evento resize
+     const handleResize = () => {
+      if (chartInstance.current) {
+        chartInstance.current.resize();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+
   }, [selectedCountries, populationData]);
 
   return <canvas ref={chartRef} />;
