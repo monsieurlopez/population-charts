@@ -1,0 +1,23 @@
+.toggle__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle__container svg {
+  fill: var(
+    --primary-color,
+    blue
+  ); /* Usa una variable CSS o un color predeterminado */
+  transition: fill 0.3s; /* Añade una transición suave */
+}
+
+.toggle__container .togglebutton--checked svg {
+  fill: white; /* Cambia el color a blanco cuando esté seleccionado */
+}
+
+.icon__radio {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}

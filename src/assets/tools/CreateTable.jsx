@@ -153,7 +153,7 @@ export const CreateTable = ({
         emptyMessage="No countries found."
         scrollable
         scrollHeight="550px"
-        style={{ minWidth: "50rem" }}
+        style={{ minWidth: "45rem" }}
         rowClassName={(rowData) => (!rowData.hasPopulation ? "p-disabled" : "")}
       >
         <Column
