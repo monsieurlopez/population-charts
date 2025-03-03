@@ -12,8 +12,15 @@ import { InputIcon } from "primereact/inputicon";
 import Button from "react-bootstrap/Button";
 import { Stack } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+//* SVG Component *//
+import ClearFilter from "../images/svg/filter-off-icon.svg";
+import ButtonClearSelection from "../images/svg/filter_remove_icon.svg";
 
-export const CreateTable = ({ onSelectionChange, selectedCountries, setPopulationData }) => {
+export const CreateTable = ({
+  onSelectionChange,
+  selectedCountries,
+  setPopulationData,
+}) => {
   const [populationData, setPopulationDataLocal] = useState(null);
   const [countries, setCountries] = useState([]);
   const [filters, setFilters] = useState(null);
@@ -34,8 +41,10 @@ export const CreateTable = ({ onSelectionChange, selectedCountries, setPopulatio
     const getCountries = async () => {
       const data = await fetchCountries();
       if (populationData) {
-        const countriesWithPopulation = data.map(country => {
-          const hasPopulation = populationData.data?.some(pop => pop.iso3 === country.iso3);
+        const countriesWithPopulation = data.map((country) => {
+          const hasPopulation = populationData.data?.some(
+            (pop) => pop.iso3 === country.iso3
+          );
           return { ...country, hasPopulation };
         });
         setCountries(countriesWithPopulation);
@@ -98,14 +107,17 @@ export const CreateTable = ({ onSelectionChange, selectedCountries, setPopulatio
     return (
       <div className="flex justify-content-between align-items-center">
         <Stack direction="horizontal" gap={1}>
-          <Button variant="outline-secondary" onClick={clearFilter} size="sm">
+          <Button variant="outline-secondary" onClick={clearFilter} size="sm" className="d-flex align-items-center ">
+            <img src={ClearFilter} alt="Icon clear filter" className="icon__clear-filter me-1"/>
             Clear Filter
           </Button>
           <Button
             variant="outline-secondary"
             onClick={clearSelection}
             size="sm"
+            className="d-flex align-items-center"
           >
+            <img src={ButtonClearSelection} alt="Icon clear selection" className="icon__clear-selection me-1"/>
             Clear Selection
           </Button>
         </Stack>
@@ -148,31 +160,11 @@ export const CreateTable = ({ onSelectionChange, selectedCountries, setPopulatio
           selectionMode="multiple"
           headerStyle={{ width: "3rem" }}
         ></Column>
-        <Column
-          field="flag"
-          header="Flag"
-          body={flagTemplate}
-        />
-        <Column
-          field="name"
-          header="Country"
-          sortable
-        />
-        <Column
-          field="capital"
-          header="Capital"
-          sortable
-        />
-        <Column
-          field="iso3"
-          header="ISO Code"
-          sortable
-        />
-        <Column
-          field="currency"
-          header="Currency"
-          sortable
-        />
+        <Column field="flag" header="Flag" body={flagTemplate} />
+        <Column field="name" header="Country" sortable />
+        <Column field="capital" header="Capital" sortable />
+        <Column field="iso3" header="ISO Code" sortable />
+        <Column field="currency" header="Currency" sortable />
       </DataTable>
     </div>
   );
