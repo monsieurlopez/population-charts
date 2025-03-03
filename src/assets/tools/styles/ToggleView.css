@@ -1,0 +1,15 @@
+.toggle__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle__container svg {
+    color: blue;
+}
+
+.icon__radio {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+}
