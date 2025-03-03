@@ -1,0 +1,16 @@
+.section__listCountries {
+    text-align: center;
+}
+
+.listCountries__container {
+    flex-wrap: wrap;
+    margin: 1rem 0 1rem 0;
+}
+
+.listCountries__text {
+    padding: 1rem;
+}
+
+.listCountries__elements  {
+    margin: 0.2rem;
+}

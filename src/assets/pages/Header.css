@@ -1,5 +1,9 @@
 .header {
     border-bottom: 0.1rem solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
 }
 
 .header__title-img {

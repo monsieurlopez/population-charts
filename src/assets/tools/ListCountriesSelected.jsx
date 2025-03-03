@@ -14,13 +14,13 @@ export const ListCountriesSelected = ({ selectedCountries, setSelectedCountries 
   };
 
   return (
-    <div className='my-2'>
+    <div className='listCountries__container'>
       {selectedCountries.map((country) => (
           <Button
             key={country.iso3}
             variant="light"
             size="sm"
-            className='m-1'
+            className='listCountries__elements'
             onClick={() => removeCountry(country.iso3)} // Eliminar el país al hacer clic
           >
             {country.name} <img src={closeIcon} alt="close icon" style={{ width: '0.5rem' }}/>

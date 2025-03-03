@@ -1,20 +1,19 @@
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './Header.css';
-import { } from 'react-bootstrap';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faSearch, faList, faTimes } from '@fortawesome/free-solid-svg-icons';
-import populationChartLopgo from '../images/img-population-chart.png';
+import { CreateToggleButton } from '../tools/ToggleView.jsx';
+import populationChartLogo from '../images/img-population-chart.png';
 
-function Header() {
-    return (
-        <header className='header'>
-            <h1 className='header__title'>
-                <img className='header__title-img' src={populationChartLopgo} alt="Logo Population Chart"/>
-            </h1>
-        </header>
-    );
-}
+export const Header = ({ onToggleChange }) => {
+  return (
+    <header className='header'>
+      <h1 className='header__title'>
+        <img className='header__title-img' src={populationChartLogo} alt="Logo Population Chart" />
+      </h1>
+      <CreateToggleButton onToggleChange={onToggleChange} />
+    </header>
+  );
+};
 
-Header.propTypes = {};
-
-export default Header;
+Header.propTypes = {
+  onToggleChange: PropTypes.func.isRequired,
+};

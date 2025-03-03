@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { Chart, Interaction } from "chart.js/auto";
+import { Chart } from "chart.js/auto";
 //import { Line } from 'react-chartjs-2';
 
 // Función para generar colores aleatorios
