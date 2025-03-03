@@ -14,11 +14,20 @@ import { Stack } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
+  const [populationData, setPopulationData] = useState([]);
   const [countries, setCountries] = useState([]);
   const [filters, setFilters] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
   const prevSelected = useRef([]);
+
+  useEffect(() => {
+    const getPopulation = async () => {
+      const data = await fetchPopulationData();
+      setPopulationData(data);
+    };
+    getPopulation();
+  }, []);
 
   useEffect(() => {
     const getCountries = async () => {
@@ -38,7 +47,6 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
         console.log(selectedCountries);
         prevSelected.current = selectedCountries;
         onSelectionChange(selectedCountries);
-        fetchPopulationData(selectedCountries);
       }
     }
   }, [selectedCountries, onSelectionChange]);

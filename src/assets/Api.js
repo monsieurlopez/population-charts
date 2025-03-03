@@ -20,30 +20,12 @@ export const fetchCountries = async () => {
 };
 
 // Llamada a la API para obtener los datos de población de un país
-export const fetchPopulationData = async (selectedCountry) => {
+export const fetchPopulationData = async () => {
   try {
-    // Asegúrate de que selectedCountry sea un array y que tenga al menos un elemento
-    if (!Array.isArray(selectedCountry) || selectedCountry.length === 0) {
-      throw new Error("Invalid selectedCountry data");
-    }
-
-    // Crea un objeto JSON con el código ISO3 del país seleccionado
-    const data = {
-      iso3: selectedCountry.map(country => country.iso3)
-    }
-    console.log(data);
-
-    const response = await axios.post(
+    const response = await axios.get(
       "https://countriesnow.space/api/v0.1/countries/population",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
     );
 
-    console.log(response.data); // La respuesta de la API
     return response.data;
   } catch (error) {
     console.error(`Error fetching population data:`, error.message);
