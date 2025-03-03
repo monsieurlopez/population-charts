@@ -14,7 +14,7 @@ import { Stack } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
-  const [populationData, setPopulationData] = useState([]);
+  const [populationData, setPopulationData] = useState(null);
   const [countries, setCountries] = useState([]);
   const [filters, setFilters] = useState(null);
   const [globalFilterValue, setGlobalFilterValue] = useState("");
@@ -32,11 +32,19 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
   useEffect(() => {
     const getCountries = async () => {
       const data = await fetchCountries();
-      setCountries(data);
+      if (populationData) {
+        const countriesWithPopulation = data.map(country => {
+          const hasPopulation = populationData.data?.some(pop => pop.iso3 === country.iso3);
+          return { ...country, hasPopulation };
+        });
+        setCountries(countriesWithPopulation);
+      }
     };
-    getCountries();
-    initFilters();
-  }, []);
+    if (populationData) {
+      getCountries();
+      initFilters();
+    }
+  }, [populationData]);
 
   useEffect(() => {
     if (onSelectionChange) {
@@ -44,7 +52,6 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
         JSON.stringify(prevSelected.current) !==
         JSON.stringify(selectedCountries)
       ) {
-        console.log(selectedCountries);
         prevSelected.current = selectedCountries;
         onSelectionChange(selectedCountries);
       }
@@ -86,9 +93,6 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
     );
   };
 
-  //const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
-  //const paginatorRight = <Button type="button" icon="pi pi-download" text />;
-
   const renderHeader = () => {
     return (
       <div className="flex justify-content-between align-items-center">
@@ -127,8 +131,6 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
         rowsPerPageOptions={[5, 10, 25, 50]}
         paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
         currentPageReportTemplate="{first} to {last} of {totalRecords}"
-        //paginatorLeft={paginatorLeft}
-        //paginatorRight={paginatorRight}
         selectionMode="checkbox"
         selection={selectedCountries}
         onSelectionChange={(e) => onSelectionChange(e.value)}
@@ -140,6 +142,7 @@ export const CreateTable = ({ onSelectionChange, selectedCountries }) => {
         scrollable
         scrollHeight="550px"
         style={{ minWidth: "50rem" }}
+        rowClassName={(rowData) => (!rowData.hasPopulation ? "p-disabled" : "")}
       >
         <Column
           selectionMode="multiple"
