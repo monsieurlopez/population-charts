@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { fetchCountries, fetchPopulationData } from "../Api.js";
+import { DownloadTable } from "./DownloadTable.jsx";
 //* Prime React Component *//
 import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -11,12 +12,10 @@ import { InputIcon } from "primereact/inputicon";
 //* Bootstrap React Component *//
 import Button from "react-bootstrap/Button";
 import { Stack } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 //* SVG Component *//
 import ClearFilter from "../images/svg/filter-off-icon.svg";
 import ButtonClearSelection from "../images/svg/filter_remove_icon.svg";
-import DownloadIcon from "../images/svg/download-icon.svg";
 //* CSS style *//
 import "./styles/CreateTable.css";
 
@@ -31,6 +30,7 @@ export const CreateTable = ({
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
   const prevSelected = useRef([]);
+  const dt = useRef(null);
 
   useEffect(() => {
     const getPopulation = async () => {
@@ -109,20 +109,7 @@ export const CreateTable = ({
 
   const paginatorLeft = () => {
     return (
-      <Dropdown>
-        <Dropdown.Toggle
-          variant="outline-secondary"
-          className="dropdown__download"
-          size="sm"
-        >
-          <img src={DownloadIcon} alt="Icon download" width={"15px"} />
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">PDF</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">CSV</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">EXCEL</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <DownloadTable countries={countries} selectedCountries={selectedCountries} dt={dt}/>
     );
   };
   const paginatorRight = () => {
@@ -204,6 +191,7 @@ export const CreateTable = ({
         paginatorLeft={paginatorLeft}
         paginatorRight={paginatorRight}
         id="table-countries"
+        ref={dt}
       >
         <Column
           selectionMode="multiple"

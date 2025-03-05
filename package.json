@@ -18,7 +18,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.5",
-    "jspdf": "^2.5.2",
+    "file-saver": "^2.0.5",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.2",
@@ -28,7 +28,8 @@
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^18.3.1",
     "react-transition-group": "^4.4.5",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
