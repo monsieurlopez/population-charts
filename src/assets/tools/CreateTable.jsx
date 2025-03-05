@@ -11,10 +11,12 @@ import { InputIcon } from "primereact/inputicon";
 //* Bootstrap React Component *//
 import Button from "react-bootstrap/Button";
 import { Stack } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 //* SVG Component *//
 import ClearFilter from "../images/svg/filter-off-icon.svg";
 import ButtonClearSelection from "../images/svg/filter_remove_icon.svg";
+import DownloadIcon from "../images/svg/download-icon.svg";
 //* CSS style *//
 import "./styles/CreateTable.css";
 
@@ -105,6 +107,33 @@ export const CreateTable = ({
     );
   };
 
+  const paginatorLeft = () => {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle
+          variant="outline-secondary"
+          className="dropdown__download"
+          size="sm"
+        >
+          <img src={DownloadIcon} alt="Icon download" width={"15px"} />
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item href="#/action-1">PDF</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">CSV</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">EXCEL</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+  const paginatorRight = () => {
+    const text = selectedCountries.length !== 1 ? "países seleccionados" : "país seleccionado";
+    return (
+      <span>
+        {selectedCountries.length} {text}
+      </span>
+    );
+  };
+
   const renderHeader = () => {
     return (
       <div className="flex justify-content-between align-items-center">
@@ -172,6 +201,9 @@ export const CreateTable = ({
         scrollHeight="550px"
         style={{ minWidth: "45rem" }}
         rowClassName={(rowData) => (!rowData.hasPopulation ? "p-disabled" : "")}
+        paginatorLeft={paginatorLeft}
+        paginatorRight={paginatorRight}
+        id="table-countries"
       >
         <Column
           selectionMode="multiple"

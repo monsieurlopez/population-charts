@@ -1,3 +1,8 @@
 .table__header-search .p-inputgroup{
     height: 2.15rem;
 }
+
+.dropdown__download img {
+    width: 1rem;
+    height: auto;
+}
