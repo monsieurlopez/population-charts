@@ -1,0 +1,7 @@
+.section__listCountries {
+    padding: 0.5rem;
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+    max-height: 6rem;
+    overflow-y: auto;
+}

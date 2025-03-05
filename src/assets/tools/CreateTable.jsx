@@ -115,9 +115,9 @@ export const CreateTable = ({
   const paginatorRight = () => {
     const text = selectedCountries.length !== 1 ? "países seleccionados" : "país seleccionado";
     return (
-      <span>
+      <p className="m-2">
         {selectedCountries.length} {text}
-      </span>
+      </p>
     );
   };
 

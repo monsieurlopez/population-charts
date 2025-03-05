@@ -1,7 +1,8 @@
 .section {
     flex-direction: column;
     justify-content: center;
-    margin: auto;
+    margin-right: auto ;
+    margin-left: auto;
     width: 80%;
     min-width: 50rem;
 }
