@@ -15,6 +15,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 //* SVG Component *//
 import ClearFilter from "../images/svg/filter-off-icon.svg";
 import ButtonClearSelection from "../images/svg/filter_remove_icon.svg";
+//* CSS style *//
+import "./styles/CreateTable.css";
 
 export const CreateTable = ({
   onSelectionChange,
@@ -107,28 +109,43 @@ export const CreateTable = ({
     return (
       <div className="flex justify-content-between align-items-center">
         <Stack direction="horizontal" gap={1}>
-          <Button variant="outline-secondary" onClick={clearFilter} size="sm" className="d-flex align-items-center ">
-            <img src={ClearFilter} alt="Icon clear filter" className="icon__clear-filter me-1"/>
-            Clear Filter
-          </Button>
           <Button
             variant="outline-secondary"
             onClick={clearSelection}
             size="sm"
             className="d-flex align-items-center"
           >
-            <img src={ButtonClearSelection} alt="Icon clear selection" className="icon__clear-selection me-1"/>
+            <img
+              src={ButtonClearSelection}
+              alt="Icon clear selection"
+              className="icon__clear-selection me-1"
+            />
             Clear Selection
           </Button>
         </Stack>
 
-        <IconField iconPosition="left">
-          <InputIcon className="pi pi-search" />
-          <InputText
-            value={globalFilterValue}
-            onChange={onGlobalFilterChange}
-            placeholder="Search"
-          />
+        <IconField className="table__header-search w-lg-25">
+          <div className="p-inputgroup flex-1">
+            <span className="p-inputgroup-addon">
+              <InputIcon className="pi pi-search" />
+            </span>
+            <InputText
+              value={globalFilterValue}
+              onChange={onGlobalFilterChange}
+              placeholder="Search"
+              className="p-inputtext-sm"
+              type="text"
+            />
+            <span className="p-inputgroup-addon">
+              <img
+                src={ClearFilter}
+                alt="Icon clear filter"
+                className="icon__clear-filter me-1"
+                onClick={clearFilter}
+                type="button"
+              />
+            </span>
+          </div>
         </IconField>
       </div>
     );
